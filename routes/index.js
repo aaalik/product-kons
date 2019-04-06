@@ -28,11 +28,10 @@ router.post('/alik', async (req, res, next) => {
         password,
         alamat
     } = req.body;
-    const tableName = 'users';
+    const tableName = 'user';
     const tableValue = {nama,email,password,alamat};
     const rows = await db.insertRow(tableName, tableValue, res);
     res.send(rows);
 });
-
 
 module.exports = router;
