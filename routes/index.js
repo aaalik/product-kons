@@ -1,4 +1,5 @@
 import express from 'express';
+import * as db from '../lib/db';
 var router = express.Router();
 
 /* GET home page. */
@@ -13,5 +14,11 @@ router.get('/product', async(req, res, next) => {
         title: 'Express'
     });
 });
+
+router.get('/alik', async (req, res, next) => {
+    const rows = await db.testConnect();
+    res.send(rows);
+});
+
 
 module.exports = router;
