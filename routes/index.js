@@ -8,15 +8,29 @@ router.get('/', async(req, res, next) => {
 });
 
 router.get('/product', async(req, res, next) => {
-    // const tbl = 'user';
-    // const rows = await db.query(`SELECT user_id, email, name, level, status FROM ${tbl}`); 
+    const tbl = 'produk';
+    const rows = await db.query(`SELECT produk.*, kategori.nama_kategori FROM ${tbl} JOIN kategori ON produk.id_kategori = kategori.id_kategori`); 
     await res.render('user/product', { 
-        title: 'Express'
+        title: 'Express',
+        data: rows
     });
 });
 
-router.get('/alik', async (req, res, next) => {
+router.get('/teskoneksi', async (req, res, next) => {
     const rows = await db.testConnect();
+    res.send(rows);
+});
+
+router.post('/alik', async (req, res, next) => {
+    const {
+        nama,
+        email,
+        password,
+        alamat
+    } = req.body;
+    const tableName = 'users';
+    const tableValue = {nama,email,password,alamat};
+    const rows = await db.insertRow(tableName, tableValue, res);
     res.send(rows);
 });
 
