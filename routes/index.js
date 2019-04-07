@@ -16,21 +16,8 @@ router.get('/product', async(req, res, next) => {
     });
 });
 
-router.get('/teskoneksi', async (req, res, next) => {
+router.get('/testdb', async (req, res, next) => {
     const rows = await db.testConnect();
-    res.send(rows);
-});
-
-router.post('/alik', async (req, res, next) => {
-    const {
-        nama,
-        email,
-        password,
-        alamat
-    } = req.body;
-    const tableName = 'user';
-    const tableValue = {nama,email,password,alamat};
-    const rows = await db.insertRow(tableName, tableValue, res);
     res.send(rows);
 });
 
