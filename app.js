@@ -21,15 +21,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // create session 
-// app.set('trust proxy', 1) // trust first proxy
-// app.use(cookieSession({
-//   name: 'expression',
-//     secret: 'keyboard cat',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: false }
-//   })
-// );
+app.set('trust proxy', 1) // trust first proxy
+app.use(cookieSession({
+  name: 'expression',
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+  })
+);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -45,7 +45,7 @@ app.use('/plugins', express.static(`${__dirname}/node_modules/admin-lte/plugins`
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', requireLogin, usersRouter);
 
 // catch 404 and forward to error handler
 app.use(async (req, res, next) => {
@@ -64,13 +64,13 @@ app.use(async(err, req, res, next) => {
 });
 
 // buat filter login
-// function requireLogin(req, res, next) {
-//   if (req.session.loggedIn) {
-//     next(); // allow the next route to run
-//   } else {
-//     // require the user to log in
-//     res.redirect("/admin/login"); // or render a form, etc.
-//   }
-// }
+function requireLogin(req, res, next) {
+  if (req.session.loggedIn) {
+    next(); // allow the next route to run
+  } else {
+    // require the user to log in
+    res.redirect('/login'); // or render a form, etc.
+  }
+}
 
 module.exports = app;
